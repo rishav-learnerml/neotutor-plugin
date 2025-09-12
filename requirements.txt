@@ -1,7 +1,10 @@
 langchain
 langchain-community
 python-dotenv
-chroma
 langchain-groq
 fastapi
 uvicorn
+youtube-transcript-api
+tiktoken
+langchain-huggingface
+sentence-transformers
