@@ -6,8 +6,6 @@ def generate_transcript_from_videoID(video_id:str)->str | None:
 
         transcript = " ".join(chunk.text for chunk in transcript_list)
 
-        print('transcript : ',transcript)
-
         return transcript
     except TranscriptsDisabled:
         print("No Captions Available for this video...")
