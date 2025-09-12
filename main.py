@@ -11,6 +11,7 @@ origins = [
     "http://localhost:8000",
     "http://127.0.0.1:8000",
     # include extension pages origin if needed (extensions use chrome-extension://<id>)
+    "chrome-extension://cplncdddlpnnlgebeadfjnjbnmmcmedj"  # your extension ID
 ]
 
 app.add_middleware(

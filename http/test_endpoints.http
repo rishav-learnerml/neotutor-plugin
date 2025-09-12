@@ -1,3 +1,5 @@
+### DEV
+
 ### Test /process_video endpoint
 POST http://localhost:8000/process_video
 Content-Type: application/json
@@ -8,6 +10,26 @@ Content-Type: application/json
 
 ### Test /process_query endpoint
 POST http://localhost:8000/process_query
+Content-Type: application/json
+
+{
+  "video_id": "FuqNluMTIR8",
+  "query": "What is the main topic of this video?"
+}
+
+##PROD
+
+
+### Test /process_video endpoint
+POST https://neotutor-plugin.onrender.com/process_video
+Content-Type: application/json
+
+{
+  "video_id": "FuqNluMTIR8"
+}
+
+### Test /process_query endpoint
+POST https://neotutor-plugin.onrender.com/process_query
 Content-Type: application/json
 
 {
