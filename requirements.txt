@@ -2,6 +2,7 @@ langchain
 langchain-community
 python-dotenv
 langchain-groq
+faiss-cpu
 fastapi
 uvicorn
 youtube-transcript-api

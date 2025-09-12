@@ -1,6 +1,6 @@
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.embeddings import HuggingFaceEmbeddings
-from langchain.vectorstores import FAISS
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.vectorstores import FAISS
 from src.llm.llm import LLM
 from langchain.prompts import PromptTemplate
 from langchain_core.runnables import RunnableParallel, RunnablePassthrough, RunnableLambda
@@ -8,10 +8,10 @@ from langchain_core.output_parsers import StrOutputParser
 import os
 
 class RAG():
-    def __init__(self,transcript:str)->None:
+    def __init__(self,transcript:str="",vector_store=None)->None:
         self.transcript=transcript
         self.splitter=RecursiveCharacterTextSplitter(chunk_size=1000,chunk_overlap=200)
-        self.vector_store=None
+        self.vector_store=vector_store
 
     def _format_docs(self,retrieved_docs)->str:
             context_text = "\n\n".join(doc.page_content for doc in retrieved_docs)
@@ -19,6 +19,9 @@ class RAG():
 
 
     def index_documents(self) -> None:
+        if(self.transcript is None):
+             print("No tarnscript available - unable to create index")
+             return None
         ## Chunk / split the txt file
         chunks=self.splitter.create_documents([self.transcript])
 
@@ -33,6 +36,7 @@ class RAG():
     def generate_answer(self,query)->str | None:
         ## define a retriever
         if(self.vector_store is None):
+            print("Vector Store is empty - Unable to process query!")
             return None
         
         try:
