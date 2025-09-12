@@ -4,10 +4,22 @@ from src.rag.rag import RAG
 from src.utils.get_polished_answer import get_polished_answer
 from src.utils.transcript_generator_yt import generate_transcript_from_videoID
 import uvicorn
-
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+origins = [
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+    # include extension pages origin if needed (extensions use chrome-extension://<id>)
+]
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # during dev allow all; restrict in production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Request for processing a video by video_id
 class VideoProcessRequest(BaseModel):
