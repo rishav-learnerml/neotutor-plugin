@@ -11,7 +11,7 @@ def enhance_query(query):
         template="""
             You are a query re-writing expert who understands the user query and generates four
             different queries based on the semantic meaning of the original user query. You have to give back 4 different queries in the specified format by clearly expressing
-            them in meaningful questions.\n
+            them in meaningful questions. Note that the user is querying about a specific youtube video\n
             Query: {query}\n\n
             {format_instructions}
         """,

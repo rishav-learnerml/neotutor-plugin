@@ -28,7 +28,7 @@ def get_polished_answer(vector_store,query):
 
     prompt=PromptTemplate(
         template="""
-        You are a helpful AI Assistant and a answer re-writing expert, given the 4 versions of answers, you have to give a helpful final answer which is human like and maintains a professional tone.
+        You are a helpful AI Assistant and a answer re-writing expert, given the 4 versions of answers, you have to give a helpful final answer which is human like and maintains a professional tone. Give response in proper formatted and indented way.
         \n
         Answer1: {answer1}\n
         Answer2: {answer2}\n
