@@ -1,31 +1,43 @@
+# main.py
+import os
+import uvicorn
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
+
+# your imports (keep paths as in your project)
 from src.rag.rag import RAG
 from src.utils.get_polished_answer import get_polished_answer
 from src.utils.transcript_generator_yt import generate_transcript_from_videoID
-import uvicorn
-from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+# CORS - during dev you can allow all; in prod restrict origins including your chrome-extension://... id
 origins = [
     "http://localhost:8000",
     "http://127.0.0.1:8000",
-    # include extension pages origin if needed (extensions use chrome-extension://<id>)
-    "chrome-extension://cplncdddlpnnlgebeadfjnjbnmmcmedj"  # your extension ID
+    # add your deployed frontend domain(s)
+    # "https://yourdomain.com",
+    # chrome extension origin (optional, for locked-down config):
+    # "chrome-extension://cplncdddlpnnlgebeadfjnjbnmmcmedj"
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # during dev allow all; restrict in production
+    allow_origins=["*"],  # set to `origins` in production
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+# simple health check for Render
+@app.get("/healthz")
+def health():
+    return {"status": "ok"}
+
 # Request for processing a video by video_id
 class VideoProcessRequest(BaseModel):
     video_id: str
-
 
 # Request for querying a video by video_id
 class QueryRequest(BaseModel):
@@ -34,8 +46,6 @@ class QueryRequest(BaseModel):
 
 # Store vector stores in memory for demo purposes
 vector_stores = {}
-
-rag_store=None
 
 @app.post("/process_video")
 def process_video(req: VideoProcessRequest):
@@ -47,7 +57,6 @@ def process_video(req: VideoProcessRequest):
     # Store the vector store in memory using video_id as key
     vector_stores[req.video_id] = rag.vector_store
     return {"message": "Transcript indexed and vector embeddings generated.", "video_id": req.video_id}
-
 
 @app.post("/process_query")
 def process_query(req: QueryRequest):
@@ -62,4 +71,7 @@ def process_query(req: QueryRequest):
     return {"answer": answer}
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    # Read port from environment (Render supplies PORT)
+    port = int(os.environ.get("PORT", 8000))
+    # host must be 0.0.0.0 for external access
+    uvicorn.run("main:app", host="0.0.0.0", port=port, log_level="info")
