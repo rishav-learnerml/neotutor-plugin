@@ -3,6 +3,8 @@ from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.vectorstores import FAISS
 from src.llm.llm import LLM
 from langchain.prompts import PromptTemplate
+from langchain_core.runnables import RunnableParallel, RunnablePassthrough, RunnableLambda
+from langchain_core.output_parsers import StrOutputParser
 import os
 
 class RAG():
@@ -11,12 +13,16 @@ class RAG():
         self.splitter=RecursiveCharacterTextSplitter(chunk_size=1000,chunk_overlap=200)
         self.vector_store=None
 
+    def _format_docs(self,retrieved_docs)->str:
+            context_text = "\n\n".join(doc.page_content for doc in retrieved_docs)
+            return context_text
+
+
     def index_documents(self) -> None:
         ## Chunk / split the txt file
         chunks=self.splitter.create_documents([self.transcript])
 
         ## Create embeddings
-
         embedding_model = HuggingFaceEmbeddings(model_name=os.getenv('HUGGINGFACE_EMBEDDING_MODEL','sentence-transformers/all-MiniLM-L6-v2'))
 
         ## Store in a vector store
@@ -30,14 +36,13 @@ class RAG():
             return None
         
         try:
+            parser = StrOutputParser()
             
             retriever = self.vector_store.as_retriever(search_type='similarity',search_kwargs={'k':4})
 
-            ## get top-k chunks --> retrieve
-            docs = retriever.invoke(query) #list of docs
-
             # define llm model and prompt template
             llm = LLM()
+            model = llm.model
 
             prompt = PromptTemplate(
                 template="""
@@ -53,17 +58,18 @@ class RAG():
             )
 
             # augment
-            context_text = "\n\n".join(doc.page_content for doc in docs)
-            final_prompt = prompt.invoke({
-                'context':context_text,
-                'query':query
+            parallel_chain = RunnableParallel({
+                 'context':retriever | RunnableLambda(self._format_docs),
+                 'query':RunnablePassthrough()
             })
 
             ## Generate
 
-            response = llm.model.invoke(final_prompt)
+            main_chain = parallel_chain | prompt | model | parser
 
-            return str(response.content)
+            answer = main_chain.invoke(query)
+
+            return answer
         
         except Exception as e:
             print("Unable to resolve query",e)
