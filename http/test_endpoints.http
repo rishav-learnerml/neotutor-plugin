@@ -21,7 +21,7 @@ Content-Type: application/json
 
 
 ### Test /process_video endpoint
-POST https://neotutor-plugin.onrender.com/process_video
+POST https://neotutor-plugin-1.onrender.com/process_video
 Content-Type: application/json
 
 {
@@ -29,7 +29,7 @@ Content-Type: application/json
 }
 
 ### Test /process_query endpoint
-POST https://neotutor-plugin.onrender.com/process_query
+POST https://neotutor-plugin-1.onrender.com/process_query
 Content-Type: application/json
 
 {
