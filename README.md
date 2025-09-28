@@ -1,18 +1,29 @@
-# NeoTutor Plugin
+<p align="center">
+  <img src="https://img.shields.io/badge/AI-Powered-blueviolet?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/MCP%20Enabled-yes-brightgreen?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Docker-ready-blue?style=for-the-badge" />
+</p>
 
-NeoTutor Plugin is an advanced AI-powered educational assistant designed to enhance learning experiences by leveraging LLMs and RAG (Retrieval-Augmented Generation) techniques. It provides seamless integration with YouTube transcripts, query enhancement, and polished answer generation for a variety of educational use cases.
+<h1 align="center">🚀 NeoTutor Plugin</h1>
 
-## Features
+<p align="center">
+  <b>Supercharge your learning with AI, RAG, and Model Context Protocol (MCP)!</b>
+</p>
 
-- **LLM Integration:** Utilizes state-of-the-art language models for intelligent responses.
-- **RAG Pipeline:** Combines retrieval and generation for context-aware answers.
-- **YouTube Transcript Support:** Automatically fetches and processes transcripts for video-based learning.
-- **Query Enhancement:** Improves user queries for better results.
-- **Polished Answers:** Delivers clear, concise, and well-formatted answers.
-- **REST API Endpoints:** Easily interact with the plugin via HTTP requests.
-- **Docker Support:** Simple deployment using Docker and Compose.
+NeoTutor Plugin is a next-gen educational assistant that leverages LLMs, RAG (Retrieval-Augmented Generation), and MCP (Model Context Protocol) for smarter, context-aware answers. Seamlessly integrates with YouTube transcripts, enhances queries, and delivers polished, actionable responses for students, educators, and lifelong learners.
 
-## Getting Started
+## ✨ Features
+
+- **LLM Integration:** State-of-the-art language models for intelligent, adaptive responses.
+- **RAG Pipeline:** Combines retrieval and generation for context-rich answers.
+- **MCP Support:** Out-of-the-box Model Context Protocol (see `server.py`) for advanced model orchestration and plugin interoperability.
+- **YouTube Transcript Support:** Fetch and process transcripts for video-based learning.
+- **Query Enhancement:** AI-powered query improvement for better results.
+- **Polished Answers:** Clear, concise, and well-formatted responses.
+- **REST API Endpoints:** Interact via HTTP requests or MCP.
+- **Docker & Compose:** Effortless deployment and scaling.
+
+## 🚦 Getting Started
 
 ### Prerequisites
 
@@ -23,62 +34,78 @@ NeoTutor Plugin is an advanced AI-powered educational assistant designed to enha
 
 #### Local Setup
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/rishav-learnerml/neotutor-plugin.git
-   cd neotutor-plugin
-   ```
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. Run the server:
-   ```bash
-   python server.py
-   ```
+```zsh
+# Clone the repo
+$ git clone https://github.com/rishav-learnerml/neotutor-plugin.git
+$ cd neotutor-plugin
+
+# Install dependencies
+$ pip install -r requirements.txt
+
+# Run the FastAPI server
+$ python server.py
+```
 
 #### Docker Setup
 
-1. Build and run the container:
-   ```bash
-   docker compose up --build
-   ```
-
-## Usage
-
-- Access API endpoints via `http/test_endpoints.http` for testing.
-- Integrate with your own applications using the provided REST API.
-- Customize LLM and RAG logic in `src/llm/llm.py` and `src/rag/rag.py`.
-
-## Project Structure
-
+```zsh
+# Build and run with Docker Compose
+$ docker compose up --build
 ```
-├── compose.yaml
-├── Dockerfile
-├── main.py
-├── server.py
-├── requirements.txt
+
+#### MCP Mode
+
+```zsh
+# Run with Model Context Protocol (MCP)
+$ python server.py   # (for FastAPI)
+$ python server.py   # (for MCP)
+# Or use: python server.py --mcp
+```
+
+## 🛠️ Usage
+
+- Test API endpoints via [`http/test_endpoints.http`](http/test_endpoints.http).
+- Integrate with your apps using REST or MCP.
+- Customize LLM and RAG logic in [`src/llm/llm.py`](src/llm/llm.py) and [`src/rag/rag.py`](src/rag/rag.py).
+- MCP entrypoint: see [`server.py`](server.py) for FastMCP integration.
+
+## 📁 Project Structure
+
+```text
+├── compose.yaml         # Docker Compose config
+├── Dockerfile           # Container build file
+├── main.py              # FastAPI app
+├── server.py            # MCP entrypoint
+├── requirements.txt     # Python dependencies
 ├── src/
-│   ├── llm/
-│   ├── rag/
-│   ├── schema/
-│   └── utils/
-├── transcripts/
-└── http/
+│   ├── llm/             # LLM logic
+│   ├── rag/             # RAG pipeline
+│   ├── schema/          # Query schemas
+│   └── utils/           # Utility functions
+├── transcripts/         # Saved transcripts
+└── http/                # HTTP endpoint tests
 ```
 
-## Contributing
+## 🤝 Contributing
 
-Contributions are welcome! Please open issues or submit pull requests for improvements, bug fixes, or new features.
+We welcome contributions! Open issues, submit pull requests, or suggest features to make NeoTutor even better.
 
-## License
+## 📜 License
 
-This project is licensed under the MIT License.
+MIT License. See [`LICENSE`](LICENSE) for details.
 
-## Contact
+## 📬 Contact
 
-For questions or support, contact [Rishav Chatterjee](mailto:rishavchatterjee@example.com).
+Questions or support? Reach out to [Rishav Chatterjee](mailto:rishavchatterjee@example.com).
 
 ---
 
-Enjoy learning with NeoTutor Plugin! 🚀
+<p align="center">
+  <b>Enjoy learning with NeoTutor Plugin!</b> <br>
+  <img src="https://img.shields.io/badge/Powered%20by%20FastAPI-005571?style=flat-square&logo=fastapi" />
+  <img src="https://img.shields.io/badge/Model%20Context%20Protocol-MCP-blue?style=flat-square" />
+  <br>
+  <img src="https://img.shields.io/badge/LLM%20%26%20RAG%20Inside-ff69b4?style=flat-square" />
+  <br>
+  <img src="https://img.shields.io/badge/NeoTutor%20Plugin-🚀-yellow?style=flat-square" />
+</p>
