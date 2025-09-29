@@ -1,6 +1,6 @@
 from fastmcp import FastMCP
 from main import app
-
+#mcp
 mcp = FastMCP.from_fastapi(
     app=app,
     name="NeoTutor",
